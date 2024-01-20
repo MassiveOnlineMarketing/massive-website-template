@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/features/dialog/dialog"
 import { Button } from '@/components/ui/button';
 
 
@@ -31,15 +31,16 @@ const CookieSettings: React.FC<CookieSettingsProps> = ({ consent, onSave, onRese
         <DialogTrigger>
           { children }
         </DialogTrigger>
-        <DialogContent className="">
+        <DialogContent >
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Bewerk Cookie voorkeur</DialogTitle>
             <DialogDescription>
+              Hier kan je aangeven welke cookies je wilt accepteren.
             </DialogDescription>
           </DialogHeader>
-          <div className="">
+          <div>
             {(["marketing", "analytics", "statistics"] as ConsentKeys[]).map(type => (
-              <div key={type}>
+              <div key={type} className='flex flex-row gap-2 items-center mb-2'>
                 <ToggleWithIcon
                   checked={consent[type]}
                   onChange={(value) => onConsentChange(type, value)}
@@ -50,8 +51,8 @@ const CookieSettings: React.FC<CookieSettingsProps> = ({ consent, onSave, onRese
           </div>
           <DialogFooter>
             {/* <Button type="submit">Save changes</Button> */}
-            <Button onClick={onSave}>Save Preferences</Button>
-            <Button onClick={onReset}>Reset Preferences</Button>
+            <Button onClick={onSave}>Opslaan</Button>
+            <Button onClick={onReset}>Reset</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

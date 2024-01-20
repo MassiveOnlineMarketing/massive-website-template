@@ -8,6 +8,10 @@ const nextConfig = {
 
     return config;
   },
+
+  env: {
+    G_TAG: process.env.G_TAG,
+  },
 };
 
 export default nextConfig;

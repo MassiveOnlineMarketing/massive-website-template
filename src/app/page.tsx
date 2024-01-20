@@ -1,19 +1,20 @@
 import Footer from "@/components/partials/footer";
 import Navbar from "@/components/partials/navbar";
-import { SubHeading } from "@/components/typography/typography";
-import { Button } from "@/components/ui/button";
+import Hero from "./_components/hero";
+
 
 export default function Home() {
   return (
-   <main className="h-[2000px]">
+    <main>
 
-    <Navbar />
+      <Navbar />
 
-    test
-    <Button mbFull variant="link" size="sm">hoi</Button>
-    <SubHeading level="h3" size="xl" colorScheme="accent">hoi</SubHeading>
+      <Hero />
 
-    <Footer />
-   </main>
+      Home Page
+
+      <Footer />
+
+    </main>
   );
 }

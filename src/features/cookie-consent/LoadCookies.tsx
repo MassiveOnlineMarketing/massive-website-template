@@ -1,49 +1,70 @@
 'use client'
 
-import { useEffect, useState } from "react"
 import Script from "next/script"
 
 import { useCookies } from "react-cookie"
 
 function LoadCookies() {
     const [cookies] = useCookies(['marketing', 'analytics', 'statistics']);
-    const [scripts, setScripts] = useState<string[]>([]);
-    const [loaded, setLoaded] = useState(false);
 
-    useEffect(() => {
-        if (!loaded) {
-            let newScripts: string[] = [];
-
-            if (cookies.marketing) {
-
-            }
-            if (cookies.analytics) {
-
-            }
-            if (cookies.statistics) {
-
-            } else {
-
-            }
-
-            //* Always load these scripts
-            newScripts.push('/clarity.js');
-            newScripts.push('/google-analytics.js');
-
-            setScripts(newScripts);
-            setLoaded(true); 
-        }
-    }, [cookies, loaded]);
+    const CLARITY_TAG = 'jicivy07ui';
 
     return (
         <>
-            {/* Load scripts from list */}
-            {scripts.map(script => (
-                <Script key={script} src={script} strategy="afterInteractive" />
-            ))}
-
-            {/* Google tag manager script */}
+            {/* * Always load */}
+            {/* Google tag analytics script */}
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.G_TAG}`} strategy="afterInteractive" />
+            <Script id="gtag" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    
+                    gtag('config', '${process.env.G_TAG}', {
+                        page_path: window.location.pathname,
+                    });
+                `}
+            </Script>
+
+            {/* Microsoft Clarity */}
+            <Script id="clarity" strategy="afterInteractive">
+                {`
+                    (function(c,l,a,r,i,t,y){
+                        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                    })(window, document, "clarity", "script", '${CLARITY_TAG}' );
+                `}
+            </Script>
+
+
+
+
+            {/* * Load scripts based on cookies */}
+            {/* {cookies.marketing && (
+                <Script id="marketing" strategy="afterInteractive">
+                    {`  
+                        // Marketing script
+                    `}
+                </Script>
+            )} */}
+
+            {/* {cookies.analytics && (
+                <Script id="analytics" strategy="afterInteractive">
+                    {`
+                        // Analytics script
+                    `}
+                </Script>
+            )} */}
+
+            {/* {cookies.statistics && (
+                <Script id="statistics" strategy="afterInteractive">
+                    {`
+                        // Statistics script
+                    `}
+                </Script>
+            )} */}
+
         </>
     );
 }
